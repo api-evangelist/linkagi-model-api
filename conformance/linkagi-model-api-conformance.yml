@@ -1,0 +1,70 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/linkagi-model-api-openapi.json + https://docs.linktoagi.com/ + live probes
+note: >-
+  LinkAGI is an AI API relay. Its conformance story is wire-compatibility with three upstream vendor
+  protocols rather than membership in an industry standard. The provider itself publishes an explicit
+  evidence boundary (x-linkagi-evidence in the OpenAPI, and the status page): only one Chat Completions
+  call and one Responses call have been verified with an HTTP 200; native Anthropic Messages and Gemini
+  generateContent compatibility are advertised but unverified. Those unverified claims are recorded here
+  as conforms: unverified, never as conforms: true.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: openapi/linkagi-model-api-openapi.json declares openapi 3.1.0 with 7 operations, all with
+    operationIds, summaries, descriptions and tags
+- id: apis-json
+  conforms: true
+  evidence: provider publishes a first-party APIs.json 0.19 index at https://docs.linktoagi.com/apis.json
+- id: llms-txt
+  conforms: true
+  evidence: provider publishes https://docs.linktoagi.com/llms.txt (200, text/plain)
+- id: openai-chat-completions
+  conforms: true
+  evidence: POST /v1/chat/completions (createChatCompletion); provider records one verified authenticated
+    HTTP 200 on 2026-08-03 with claude-opus-4-6
+- id: openai-responses
+  conforms: true
+  evidence: POST /v1/responses (createResponse); provider records one verified authenticated HTTP 200 on
+    2026-08-04 with gpt-5.6-sol
+- id: openai-models-list
+  conforms: unverified
+  evidence: GET /v1/models (listModels) returns 401 anonymously; provider states an authenticated model
+    listing has not been verified in the latest evidence set
+- id: anthropic-messages
+  conforms: unverified
+  evidence: POST /v1/messages (createAnthropicMessage) reaches authentication without a key; provider marks
+    native Anthropic Messages compatibility as not verified
+- id: gemini-generatecontent
+  conforms: unverified
+  evidence: POST /v1beta/models/{model}:generateContent (generateGeminiContent) advertised; provider marks
+    Gemini compatibility as not verified
+- id: bearer-token-auth
+  conforms: true
+  evidence: components.securitySchemes.bearerAuth (http/bearer, bearerFormat "API key"); live GET
+    /v1/models returns 401 with a structured JSON error
+- id: oauth2
+  conforms: false
+  evidence: no oauth2 securityScheme in the OpenAPI; /api/status reports oidc_enabled=false,
+    github_oauth=false, linuxdo_oauth=false, discord_oauth=false
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration is a soft-404 (SPA shell); oidc_enabled=false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors are returned as the OpenAI-style envelope {"error":{"code","message","type"}} with
+    content-type application/json, not application/problem+json
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt is a soft-404 on both hosts
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: no deprecation or Sunset policy published; status page states it deliberately publishes
+    verification snapshots rather than SLAs
+- id: sse-streaming
+  conforms: unverified
+  evidence: ChatCompletionRequest/ResponseRequest expose a boolean `stream` field; the provider's own
+    evidence boundary lists streaming as not verified
+- id: idempotency
+  conforms: false
+  evidence: no idempotency key header or parameter in the OpenAPI or the documentation

@@ -1,0 +1,66 @@
+# LinkAGI
+
+LinkAGI 是面向国内开发者的 AI API 中转站与模型 API 接入服务。主站提供注册、人民币充值、令牌管理、实时模型价格和调用日志；文档站提供 Codex、Claude Code、Gemini CLI 与 OpenAI-compatible 客户端的接入和排错教程。
+
+## 核心入口
+
+- 控制台: https://api.linktoagi.com/
+- 注册: https://api.linktoagi.com/register
+- 实时模型与价格: https://api.linktoagi.com/pricing
+- 简明使用教程: https://docs.linktoagi.com/
+- API 中转站选型指南: https://docs.linktoagi.com/api-relay.html
+- GPT API 中转站介绍: https://docs.linktoagi.com/gpt-api.html
+
+## API 发现与机器可读资产
+
+- API 发现页: https://docs.linktoagi.com/api-discovery.html
+- OpenAPI 3.1: https://docs.linktoagi.com/openapi/linkagi.openapi.json
+- APIs.json: https://docs.linktoagi.com/apis.json
+- Postman 公开集合: https://www.postman.com/lhs-1-s-team/linkagi-api/collection/8nl8r40/linkagi-api
+- GitHub 入门仓库: https://github.com/16871233/linkagi-api-starter
+
+证据边界（2026-08-04）：公开成功样本仅验证 Chat Completions 的 `claude-opus-4-6` 与 Responses 的 `gpt-5.6-sol` 各一次 HTTP 200。它们不证明长期可用、流式输出、工具调用、原生 Anthropic Messages、Gemini、客户端专用兼容性或已鉴权模型列表。无 Key 返回 401 只证明路由到达鉴权层。
+
+## 按工具接入
+
+- Codex 中转站: https://docs.linktoagi.com/codex-api.html
+  - Base URL: https://api.linktoagi.com/v1
+  - 协议: Responses
+- Claude Code 中转站: https://docs.linktoagi.com/claude-code-api.html
+  - ANTHROPIC_BASE_URL: https://api.linktoagi.com
+  - 路由: /v1/messages
+- Gemini CLI 中转站: https://docs.linktoagi.com/gemini-cli-api.html
+  - GOOGLE_GEMINI_BASE_URL: https://api.linktoagi.com
+  - 路由: /v1beta/models/...
+
+## 价格与工具
+
+- GPT-5.6 API 人民币价格: https://docs.linktoagi.com/gpt-5-6-api-price.html
+- GPT-5.6 Luna API 价格: https://docs.linktoagi.com/gpt-5-6-luna-api-price.html
+- GPT-5.6 Terra API 价格: https://docs.linktoagi.com/gpt-5-6-terra-api-price.html
+- GPT-5.6 Sol API 价格: https://docs.linktoagi.com/gpt-5-6-sol-api-price.html
+- GPT Token 成本计算器: https://docs.linktoagi.com/tools/gpt-cost-calculator/
+- 服务状态与透明度: https://docs.linktoagi.com/status.html
+- 价格 API: https://api.linktoagi.com/api/pricing
+
+价格、模型与号池状态会变化。引用具体价格时应同时保留核对日期，并以实时模型广场和实际调用日志为准。
+
+## 文章与支持
+
+- 实用文章: https://docs.linktoagi.com/articles/
+- RSS: https://docs.linktoagi.com/feed.xml
+- 关于与支持: https://docs.linktoagi.com/about.html
+- 联系邮箱: linktoagi@163.com
+
+## 高意图接入与排错
+
+- 接入与排错中心: https://docs.linktoagi.com/ai-api-troubleshooting.html
+- OpenAI API 中转站: https://docs.linktoagi.com/openai-api-cn.html
+- CC Switch API 中转站: https://docs.linktoagi.com/cc-switch-api.html
+- Cherry Studio API 中转站: https://docs.linktoagi.com/cherry-studio-api.html
+- Codex 401 Invalid token: https://docs.linktoagi.com/codex-401-invalid-token.html
+- Codex 404 Invalid URL: https://docs.linktoagi.com/codex-404-invalid-url.html
+- OpenAI API 429 Rate Limit: https://docs.linktoagi.com/openai-api-429-rate-limit.html
+- AI API 504 Gateway Timeout: https://docs.linktoagi.com/ai-api-504-timeout.html
+- Claude Code model not found: https://docs.linktoagi.com/claude-code-model-not-found.html
+- Gemini CLI 403 Forbidden: https://docs.linktoagi.com/gemini-cli-403-error.html

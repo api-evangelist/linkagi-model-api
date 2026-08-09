@@ -1,0 +1,76 @@
+generated: '2026-08-09'
+method: probed
+source: live GET of /.well-known/* on every apis.yml + OpenAPI servers[] host
+note: >-
+  No /.well-known/ discovery document is published on either host. Both hosts answer HTTP 200 for every
+  /.well-known/* path with an HTML body, not the requested document: api.linktoagi.com is a New API
+  (QuantumNous) single-page console that returns the same 1,166-byte SPA shell for any unmatched route, and
+  docs.linktoagi.com returns its 38,671-byte documentation index. Per the soft-404 rule a 200 that returns
+  HTML is not evidence of the document, so nothing was saved and no WellKnown/SecurityTxt pointer is wired.
+found: 0
+hosts:
+- host: https://api.linktoagi.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    result: soft-404 (SPA shell)
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    result: soft-404 (SPA shell)
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    result: soft-404 (SPA shell)
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    result: soft-404 (SPA shell)
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    result: soft-404 (SPA shell)
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    result: soft-404 (SPA shell)
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    result: soft-404 (SPA shell)
+- host: https://docs.linktoagi.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    result: soft-404 (docs index)
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    result: soft-404 (docs index)
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    result: soft-404 (docs index)
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    result: soft-404 (docs index)
+discovery_published_elsewhere:
+- kind: APIs.json
+  url: https://docs.linktoagi.com/apis.json
+  status: 200
+- kind: llms.txt
+  url: https://docs.linktoagi.com/llms.txt
+  status: 200
+- kind: OpenAPI 3.1
+  url: https://docs.linktoagi.com/openapi/linkagi.openapi.json
+  status: 200
+- kind: API discovery page
+  url: https://docs.linktoagi.com/api-discovery.html
+  status: 200
+x-evidence:
+  fetched: '2026-08-09'
+  spa_shell_bytes: 1166
+  docs_index_bytes: 38671

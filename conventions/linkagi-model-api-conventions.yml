@@ -1,0 +1,88 @@
+generated: '2026-08-09'
+method: searched
+source: openapi/linkagi-model-api-openapi.json
+docs: https://docs.linktoagi.com/
+note: >-
+  LinkAGI is a protocol-imitating relay: its request/response conventions are whatever the upstream vendor
+  protocol defines for the route you choose. There is no LinkAGI-native envelope, no LinkAGI-native
+  pagination, and no idempotency contract. What IS LinkAGI-specific is the auth header per route, the token
+  "group" (号池) that decides which models a key can see, and the gateway's error/request-id shape.
+authentication:
+  style: per-route static API key issued in the console; no OAuth, no OIDC, no refresh
+  routes:
+  - route: /v1/models, /v1/chat/completions, /v1/responses
+    scheme: bearerAuth
+    header: 'Authorization: Bearer <key>'
+  - route: /v1/messages
+    scheme: anthropicApiKey
+    header: 'x-api-key: <key>'
+    extra_required_header: 'anthropic-version: 2023-06-01'
+  - route: /v1beta/models/{model}:generateContent
+    scheme: geminiApiKey
+    header: 'x-goog-api-key: <key>'
+  grouping:
+    concept: token group / 号池
+    description: >-
+      A key belongs to a group; the group determines which models are visible and at what ratio. Group
+      names are published unauthenticated at GET /api/pricing under usable_group and group_ratio (e.g.
+      "Codex | Pro号池", "ClaudeCode-补贴渠道", "Gemini", "default" = 按次计费).
+    consequence: A 401, a 400 "model not found", or an empty model list is frequently a group problem, not
+      a key problem.
+  see_also: authentication/linkagi-model-api-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: No idempotency key header or parameter appears in the OpenAPI or the documentation. Retries after a
+    504 may be double-billed; the docs advise bounding retries rather than offering an idempotency contract.
+pagination:
+  supported: false
+  note: No collection endpoint paginates. GET /v1/models returns a single unpaged list, and GET /api/pricing
+    returns the whole model array (58 models on 2026-08-09).
+field_expansion:
+  supported: false
+metadata:
+  supported: false
+request_tracing:
+  header: x-oneapi-request-id
+  also_in_body: 'error.message, appended as "(request id: ...)"'
+  note: Emitted by the New API gateway on both success and error responses; quote it when contacting support.
+versioning:
+  style: uri-path inherited from the imitated vendor protocol (/v1, /v1beta)
+  see_also: lifecycle/linkagi-model-api-lifecycle.yml
+error_envelope:
+  shape: '{"error": {"code": "", "message": "...", "type": "new_api_error"}}'
+  content_type: application/json; charset=utf-8
+  rfc9457: false
+  see_also: errors/linkagi-model-api-problem-types.yml
+rate_limit_signaling:
+  status: 429
+  headers_published: false
+  numeric_limits_published: false
+  guidance: exponential backoff plus a concurrency cap; identify which layer (client, group, model pool,
+    upstream vendor) imposed the limit from the console call log
+  docs: https://docs.linktoagi.com/openai-api-429-rate-limit.html
+streaming:
+  parameter: stream (boolean) on ChatCompletionRequest and ResponseRequest
+  verified: false
+  note: The provider's own evidence boundary lists streaming as not verified.
+billing:
+  model: prepaid pay-as-you-go, CNY
+  currency_symbol: '¥'
+  unit: quota_per_unit 500000, quota_display_type CNY (from GET /api/status)
+  pricing_api: https://api.linktoagi.com/api/pricing
+  pricing_version_field: pricing_version (hash; changes when the price table changes)
+  guidance: retain the pricing_version or the collection timestamp alongside any quoted price, and reconcile
+    paid calls against the console usage log
+client_onboarding:
+  codex:
+    base_url: https://api.linktoagi.com/v1
+    protocol: Responses
+    docs: https://docs.linktoagi.com/codex-api.html
+  claude_code:
+    env: ANTHROPIC_BASE_URL=https://api.linktoagi.com
+    route: /v1/messages
+    docs: https://docs.linktoagi.com/claude-code-api.html
+  gemini_cli:
+    env: GOOGLE_GEMINI_BASE_URL=https://api.linktoagi.com
+    route: /v1beta/models/...
+    docs: https://docs.linktoagi.com/gemini-cli-api.html

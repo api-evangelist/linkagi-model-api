@@ -1,0 +1,86 @@
+generated: '2026-08-09'
+method: searched
+source: https://api.linktoagi.com/api/status
+kind: service-announcements
+note: >-
+  LinkAGI publishes no API changelog and no release notes for the contract itself — the OpenAPI is versioned
+  only by date (2026-08-04). What it does publish is a dated, machine-readable announcement feed on the
+  unauthenticated GET /api/status endpoint (data.announcements[]), and every entry is a real service change:
+  models and channels added or retired, price ratios adjusted, pools rebuilt. That is the provider's change
+  record, so it is captured here as one. Entries are verbatim Chinese with an English gloss; id 6 is absent
+  from the published feed.
+scheme:
+  contract_version: date (info.version in the OpenAPI)
+  platform_version: v1.0.0-rc.21 (New API gateway build, from the x-new-api-version response header)
+current_version: '2026-08-04'
+window: 2025-12-10 through 2026-08-09 (full published feed as of the fetch date)
+entries:
+- id: 9
+  date: '2026-08-09'
+  type: default
+  text: Codex | Sale号池已稳定，倍率调整为0.15
+  gloss: Codex Sale pool stabilised; billing ratio adjusted to 0.15.
+  change: pricing
+- id: 8
+  date: '2026-08-03'
+  type: default
+  text: 能往plus,pro上切的就切吧 sale实在补不上号了
+  gloss: Move to the Plus/Pro pools where you can — the Sale pool cannot be restocked.
+  change: availability
+- id: 7
+  date: '2026-07-31'
+  type: default
+  text: 受GPT影响，有几条线路维护不及时。今晚开始整合线路，预计完成时间，明天下午，期间可能会断连
+  gloss: Some routes were behind on maintenance; route consolidation started that night with expected
+    completion the following afternoon, with possible disconnections during the window.
+  change: maintenance
+  breaking: false
+- id: 5
+  date: '2026-07-21'
+  type: default
+  text: Codex Sale渠道正在补额度，暂时下掉
+  gloss: The Codex Sale channel is being restocked and is temporarily withdrawn.
+  change: availability
+- id: 4
+  date: '2026-07-21'
+  type: default
+  text: |-
+    grok-imagine-image模型下架了
+    grok-4.5倍率限时下调为0.2，量大管饱！
+  gloss: Model grok-imagine-image retired; grok-4.5 ratio temporarily cut to 0.2.
+  change: removal + pricing
+  breaking: true
+- id: 3
+  date: '2026-07-21'
+  type: default
+  text: |-
+    ClaudeCode-Kiro-Power逆向
+    ClaudeCode-逆向
+    这两个渠道下架了
+
+    ClaudeCode-Kiro逆向倍率下调为0.4
+  gloss: Channels ClaudeCode-Kiro-Power逆向 and ClaudeCode-逆向 retired; ClaudeCode-Kiro逆向 ratio cut to 0.4.
+  change: removal + pricing
+  breaking: true
+- id: 2
+  date: '2026-07-17'
+  type: success
+  text: Codex | Pro号池推送 gpt-5.6-terra，gpt-5.6-sol，gpt-5.6-luna
+  gloss: gpt-5.6-terra, gpt-5.6-sol and gpt-5.6-luna pushed to the Codex Pro pool.
+  change: addition
+  breaking: false
+- id: 1
+  date: '2025-12-10'
+  type: success
+  text: 50以上可联系客服开票
+  gloss: Invoices available on request for spend of ¥50 or more.
+  change: commercial
+related:
+  articles_feed: https://docs.linktoagi.com/feed.xml
+  pricing_api: https://api.linktoagi.com/api/pricing
+  pricing_version_on_fetch: a42d372ccf0b5dd13ecf71203521f9d2
+x-evidence:
+  fetched: '2026-08-09'
+  url: https://api.linktoagi.com/api/status
+  http_status: 200
+  content_type: application/json; charset=utf-8

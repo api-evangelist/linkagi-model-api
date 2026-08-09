@@ -1,0 +1,67 @@
+generated: '2026-08-09'
+method: searched
+source: openapi/linkagi-model-api-openapi.json
+docs: https://docs.linktoagi.com/
+note: >-
+  Static API keys minted in the New API console at https://api.linktoagi.com after email verification. No
+  OAuth, no OIDC, no SSO, no key rotation contract: GET /api/status reports oidc_enabled=false,
+  github_oauth=false, linuxdo_oauth=false, discord_oauth=false, wechat_login=false, passkey_login=false;
+  password_login_enabled=true and email_verification=true. /.well-known/openid-configuration and
+  /.well-known/oauth-authorization-server are soft-404s (SPA shell), so no scopes/ artifact is emitted.
+  The header a key travels in depends on which vendor protocol the route imitates — three schemes, one key.
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+  oauth2_flows: []
+  key_issuance: console (https://api.linktoagi.com) after email verification
+  group_scoping: >-
+    A key belongs to a token group (号池) that determines which models it can address and the billing ratio
+    applied. Groups are published unauthenticated at GET /api/pricing (usable_group, group_ratio). This is
+    the closest thing LinkAGI has to a scope model.
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: API key
+  sources:
+  - openapi/linkagi-model-api-openapi.json
+- name: anthropicApiKey
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  sources:
+  - openapi/linkagi-model-api-openapi.json
+- name: geminiApiKey
+  type: apiKey
+  in: header
+  parameter: x-goog-api-key
+  sources:
+  - openapi/linkagi-model-api-openapi.json
+route_map:
+- scheme: bearerAuth
+  header: 'Authorization: Bearer <key>'
+  operations: [listModels, createChatCompletion, createResponse]
+- scheme: anthropicApiKey
+  header: 'x-api-key: <key>'
+  additional_required_header: 'anthropic-version: 2023-06-01'
+  operations: [createAnthropicMessage]
+- scheme: geminiApiKey
+  header: 'x-goog-api-key: <key>'
+  operations: [generateGeminiContent]
+- scheme: none
+  operations: [getPublicStatus, getPublicPricing]
+  note: security:[] in the OpenAPI; both verified 200 anonymously on 2026-08-09
+x-evidence:
+  fetched: '2026-08-09'
+  urls:
+  - url: https://api.linktoagi.com/v1/models
+    status: 401
+    body: '{"error":{"code":"","message":"Invalid token (request id: ...)","type":"new_api_error"}}'
+  - url: https://api.linktoagi.com/api/status
+    status: 200
+  - url: https://api.linktoagi.com/.well-known/openid-configuration
+    status: 200
+    result: soft-404 (SPA shell, text/html)

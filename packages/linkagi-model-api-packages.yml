@@ -1,0 +1,79 @@
+generated: '2026-08-09'
+method: searched
+source: public package registries + https://github.com/16871233/linkagi-api-starter
+note: >-
+  LinkAGI ships NO client libraries. Because it is a protocol relay, integration is done with the upstream
+  vendors' own SDKs (openai, anthropic, google-genai) repointed at https://api.linktoagi.com — the provider
+  documents base-URL swaps, not libraries of its own. No `type: SDKs` pointer is wired, because none exists.
+packages: []
+registries_checked:
+- registry: npm
+  query: linkagi, linktoagi
+  result: 0 matches
+- registry: PyPI
+  query: linkagi
+  result: 404
+- registry: crates.io
+  query: linkagi
+  result: 0 matches
+- registry: Packagist
+  query: linkagi
+  result: 0 first-party matches
+- registry: Maven Central
+  result: not published
+- registry: NuGet
+  result: not published
+- registry: RubyGems
+  result: not published
+- registry: pkg.go.dev
+  result: not published
+first_party_tooling:
+- name: linkagi-preflight.sh
+  kind: diagnostic shell script
+  url: https://github.com/16871233/linkagi-api-starter/blob/main/linkagi-preflight.sh
+  install: curl the raw file and run with bash; requires curl only
+  description: >-
+    Route self-check against https://api.linktoagi.com. Asserts 200 on the console root and 401 on
+    /v1/models, /v1/responses, /v1/messages and /v1beta/models/{model}:generateContent. Reads no API key and
+    makes no billable call; it proves routing reaches the auth layer and nothing more.
+  official: true
+  note: 'A shell diagnostic, not an installable CLI — no `type: CLI` pointer is wired.'
+- name: compatibility/test-compatibility.sh
+  kind: compatibility harness
+  url: https://github.com/16871233/linkagi-api-starter/blob/main/compatibility/test-compatibility.sh
+  install: clone the starter repo; requires curl and jq
+  description: >-
+    Runs authenticated samples against /v1/models, /v1/chat/completions, /v1/responses and the vendor-protocol
+    routes with LINKAGI_API_KEY, writing NDJSON evidence rows (checked_at, url, http_status, elapsed_seconds,
+    content_type, usage). This is how the provider's published evidence boundary is produced.
+  official: true
+  billable: true
+- name: postman collection + environment
+  kind: Postman
+  url: https://www.postman.com/lhs-1-s-team/linkagi-api/collection/8nl8r40/linkagi-api
+  repo_copy: https://github.com/16871233/linkagi-api-starter/tree/main/postman
+  official: true
+client_integrations:
+  note: >-
+    Config recipes for third-party desktop clients, published by LinkAGI in the starter repo and advertised
+    as deep links in GET /api/status (data.chats). These are integration configs, not libraries or embeddable
+    UI components, so no `type: Components` artifact is emitted.
+  clients:
+  - Cherry Studio
+  - Chatbox
+  - CC Switch
+  - DeepChat
+  - AionUI
+  - 流畅阅读 (FluentRead)
+  - Lobe Chat
+  - models.dev provider entry
+upstream_sdks_used:
+- language: python/javascript
+  library: openai
+  usage: set base_url to https://api.linktoagi.com/v1 with the LinkAGI key as the bearer token
+- language: any
+  library: anthropic (Claude Code)
+  usage: ANTHROPIC_BASE_URL=https://api.linktoagi.com, key sent as x-api-key
+- language: any
+  library: google-genai (Gemini CLI)
+  usage: GOOGLE_GEMINI_BASE_URL=https://api.linktoagi.com, key sent as x-goog-api-key

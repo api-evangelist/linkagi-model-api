@@ -1,0 +1,84 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for LinkAGI Model API
+  version: 1.0.0
+x-generated: '2026-08-09'
+x-method: generated
+x-source: openapi/linkagi-model-api-openapi.json
+extends: openapi/linkagi-model-api-openapi.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-slug: linkagi-model-api
+    x-apievangelist-enriched: '2026-08-09'
+    x-apievangelist-artifacts:
+      conventions: conventions/linkagi-model-api-conventions.yml
+      errors: errors/linkagi-model-api-problem-types.yml
+      lifecycle: lifecycle/linkagi-model-api-lifecycle.yml
+      authentication: authentication/linkagi-model-api-authentication.yml
+      conformance: conformance/linkagi-model-api-conformance.yml
+      data_model: data-model/linkagi-model-api-data-model.yml
+      changelog: changelog/linkagi-model-api-changelog.yml
+      skills: skills/_index.yml
+    x-apievangelist-note: >-
+      LinkAGI is a third-party AI API relay (中转站), not a first-party model provider. Every route imitates an
+      upstream vendor protocol. The provider publishes an explicit evidence boundary; this overlay preserves
+      it rather than smoothing it over.
+- target: $
+  update:
+    x-error-envelope:
+      shape: '{"error": {"code": "", "message": "...", "type": "new_api_error"}}'
+      rfc9457: false
+      request_id_header: x-oneapi-request-id
+      catalog: errors/linkagi-model-api-problem-types.yml
+    x-idempotency:
+      supported: false
+      note: no idempotency key header or parameter is documented; bound retries after a 504
+    x-rate-limits:
+      status: 429
+      numeric_limits_published: false
+      guidance: exponential backoff plus a concurrency cap
+- target: $.paths['/v1/chat/completions'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      note: billable call against a prepaid CNY balance
+- target: $.paths['/v1/responses'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      note: billable call against a prepaid CNY balance
+- target: $.paths['/v1/messages'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      note: billable call against a prepaid CNY balance; native compatibility unverified by the provider
+- target: $.paths['/v1beta/models/{model}:generateContent'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      note: billable call against a prepaid CNY balance; native compatibility unverified by the provider
+- target: $.paths['/api/pricing'].get
+  update:
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+    x-usage-note: >-
+      Call this before any paid request. usable_group / group_ratio / enable_groups here are the authoritative
+      answer to "can my token see this model, and at what ratio"; the model ids in blog posts go stale.
+- target: $.paths['/api/status'].get
+  update:
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+    x-usage-note: data.announcements[] is the provider's dated change record — see
+      changelog/linkagi-model-api-changelog.yml
+- target: $.paths['/v1/models'].get
+  update:
+    x-agentic-access:
+      action-class: connected
+      consequence: read

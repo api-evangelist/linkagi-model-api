@@ -1,0 +1,48 @@
+generated: '2026-08-09'
+method: searched
+source: https://docs.linktoagi.com/status.html
+versioning:
+  scheme: uri-path + upstream vendor path
+  current:
+  - v1 (OpenAI-compatible and Anthropic-style routes)
+  - v1beta (Gemini-style route)
+  spec_version: '2026-08-04'
+  spec_version_scheme: date
+  note: >-
+    The OpenAPI document is versioned by date (info.version 2026-08-04), not semver. Route versions are
+    inherited from the upstream vendor protocols the relay imitates, not chosen by LinkAGI.
+  platform_version:
+    value: v1.0.0-rc.21
+    source: response header x-new-api-version on https://api.linktoagi.com/v1/models
+    note: The relay runs the open-source New API / One API gateway; this is the gateway build, not an API
+      contract version.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No deprecation or Sunset policy is published. Model and channel retirements are announced only as dated
+    service announcements (see changelog/linkagi-model-api-changelog.yml) — e.g. "grok-imagine-image 模型下架了"
+    and "ClaudeCode-Kiro-Power逆向 / ClaudeCode-逆向 这两个渠道下架了" on 2026-07-21 — with no notice window.
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    The status page explicitly declines to publish an SLA: "状态快照只说明核验时点，不把'已提交''已连通'包装成长期 SLA"
+    (status snapshots describe the moment of verification only and are not packaged as a long-term SLA).
+    The console has uptime-kuma integration enabled but GET /api/uptime/status returns an empty data array.
+status_page: https://docs.linktoagi.com/status.html
+status_page_kind: verification-snapshot
+status_api: https://api.linktoagi.com/api/status
+last_verified_by_provider: '2026-08-04 22:34 CST'
+launched: '2026-06'
+incident_history: false
+deprecated_operations: []
+x-evidence:
+  fetched: '2026-08-09'
+  urls:
+  - url: https://docs.linktoagi.com/status.html
+    status: 200
+  - url: https://api.linktoagi.com/api/status
+    status: 200
+  - url: https://api.linktoagi.com/api/uptime/status
+    status: 200

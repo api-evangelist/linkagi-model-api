@@ -1,0 +1,129 @@
+generated: '2026-08-09'
+method: searched
+source: openapi/linkagi-model-api-openapi.json
+docs: https://docs.linktoagi.com/ai-api-troubleshooting.html
+format: openai-error-envelope
+note: >-
+  LinkAGI does not use RFC 9457 problem+json. Errors come back on the OpenAI-shaped envelope emitted by the
+  New API / One API gateway it runs on (response header x-new-api-version: v1.0.0-rc.21). The envelope was
+  captured live from an anonymous GET https://api.linktoagi.com/v1/models on 2026-08-09.
+envelope:
+  content_type: application/json; charset=utf-8
+  shape: '{"error": {"code": "", "message": "...", "type": "new_api_error"}}'
+  fields:
+  - name: error.type
+    description: Gateway error family; observed value new_api_error
+  - name: error.message
+    description: Human-readable message with the request id appended in parentheses
+  - name: error.code
+    description: Upstream/gateway code; observed empty on the 401 sample
+  request_id:
+    header: x-oneapi-request-id
+    also_in: 'error.message (as "request id: ...")'
+    example_shape: 2026080920262489xxxxxxxxxxxxxxxxxxxxxxx
+problems:
+- status: 400
+  name: BadRequest
+  title: Invalid body, model ID, group, or unsupported request field
+  causes:
+  - Malformed JSON body
+  - Model ID not present in the live marketplace
+  - Model not enabled for the token's group
+  - Request field the selected upstream route does not support
+  remediation: Copy a current model id from https://api.linktoagi.com/pricing (or GET /api/pricing) before
+    sending a paid request; confirm the token group in the console.
+  source_operations:
+  - openapi/linkagi-model-api-openapi.json#createChatCompletion
+  - openapi/linkagi-model-api-openapi.json#createResponse
+  - openapi/linkagi-model-api-openapi.json#createAnthropicMessage
+  - openapi/linkagi-model-api-openapi.json#generateGeminiContent
+- status: 401
+  name: Unauthorized
+  title: Missing, invalid, expired, disabled, or unauthorized API key
+  observed_message: 'Invalid token (request id: ...)'
+  observed_type: new_api_error
+  causes:
+  - No Authorization / x-api-key / x-goog-api-key header
+  - Key revoked, expired or disabled
+  - Key not in a group that can see the requested model
+  - Insufficient prepaid balance
+  remediation: Check the environment variable actually in use (config.toml for Codex, ANTHROPIC_BASE_URL
+    for Claude Code, GOOGLE_GEMINI_BASE_URL for Gemini CLI), the key's group, and the account balance
+    before changing model settings.
+  docs: https://docs.linktoagi.com/codex-401-invalid-token.html
+  source_operations:
+  - openapi/linkagi-model-api-openapi.json#listModels
+  - openapi/linkagi-model-api-openapi.json#createChatCompletion
+  - openapi/linkagi-model-api-openapi.json#createResponse
+  - openapi/linkagi-model-api-openapi.json#createAnthropicMessage
+  - openapi/linkagi-model-api-openapi.json#generateGeminiContent
+  x-evidence:
+    fetched: '2026-08-09'
+    url: https://api.linktoagi.com/v1/models
+    http_status: 401
+- status: 403
+  name: Forbidden
+  title: Authentication or model-permission rejection on the Gemini-style route
+  causes:
+  - Wrong GOOGLE_GEMINI_BASE_URL
+  - Key sent with the wrong header for the route
+  - Model not permitted for the token group, or upstream rejection
+  remediation: Verify GOOGLE_GEMINI_BASE_URL is https://api.linktoagi.com, that the key is sent as
+    x-goog-api-key, and that the model is enabled for the group.
+  docs: https://docs.linktoagi.com/gemini-cli-403-error.html
+  documented_only: true
+  note: Not declared in the OpenAPI responses; documented in the troubleshooting centre.
+- status: 404
+  name: InvalidURL
+  title: Invalid URL — base URL is not the final request address
+  causes:
+  - Base URL used where the full endpoint path was required
+  - Missing or duplicated /v1 path segment
+  - Responses-protocol client pointed at a Chat Completions path
+  remediation: For Codex use base https://api.linktoagi.com/v1 with the Responses protocol; for Claude Code
+    set ANTHROPIC_BASE_URL to https://api.linktoagi.com (route /v1/messages); for Gemini CLI set
+    GOOGLE_GEMINI_BASE_URL to https://api.linktoagi.com (route /v1beta/models/...).
+  docs: https://docs.linktoagi.com/codex-404-invalid-url.html
+  documented_only: true
+- status: 429
+  name: RateLimited
+  title: Client, group, model, route, or upstream limit reached
+  causes:
+  - Per-client request rate limit
+  - Concurrency limit
+  - Insufficient balance
+  - Model pool (号池) exhaustion
+  - Upstream vendor rate limit passed through
+  remediation: Back off exponentially, cap concurrency, confirm balance, and use the call log to identify
+    which layer imposed the limit. No numeric limits are published.
+  docs: https://docs.linktoagi.com/openai-api-429-rate-limit.html
+  source_operations:
+  - openapi/linkagi-model-api-openapi.json#getPublicStatus
+  - openapi/linkagi-model-api-openapi.json#getPublicPricing
+  - openapi/linkagi-model-api-openapi.json#listModels
+  - openapi/linkagi-model-api-openapi.json#createChatCompletion
+  - openapi/linkagi-model-api-openapi.json#createResponse
+  - openapi/linkagi-model-api-openapi.json#createAnthropicMessage
+  - openapi/linkagi-model-api-openapi.json#generateGeminiContent
+- status: 504
+  name: GatewayTimeout
+  title: Gateway timeout between edge proxy, relay and upstream model
+  causes:
+  - Edge proxy / gateway timeout
+  - Slow upstream model or long time-to-first-byte
+  - Streaming stall
+  - Long-running image tasks
+  remediation: Separate the timeout layers, watch time-to-first-byte, bound retries, and check upstream
+    availability before retrying.
+  docs: https://docs.linktoagi.com/ai-api-504-timeout.html
+  documented_only: true
+- status: null
+  name: ModelNotFound
+  title: Model Not Found
+  causes:
+  - Model name copied from a blog post rather than the live marketplace
+  - Model not enabled for the token group
+  - Model retired from the pool (see the dated service announcements)
+  remediation: Copy the model id from the live marketplace or GET /api/pricing, then confirm the group.
+  docs: https://docs.linktoagi.com/claude-code-model-not-found.html
+  documented_only: true

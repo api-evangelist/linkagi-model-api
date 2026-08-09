@@ -1,0 +1,19 @@
+generated: '2026-08-09'
+method: generated
+source: openapi/linkagi-model-api-openapi.json + https://docs.linktoagi.com/
+note: >-
+  Every operationId referenced below was verified verbatim against
+  openapi/linkagi-model-api-openapi.json (7 operations). No operation was invented.
+skills:
+- file: linkagi-model-api-select-model-and-chat.md
+  name: Select a live model and call LinkAGI Chat Completions
+  api: openapi/linkagi-model-api-openapi.json
+  operations: [getPublicPricing, listModels, createChatCompletion]
+- file: linkagi-model-api-codex-responses.md
+  name: Point Codex at LinkAGI and call the Responses route
+  api: openapi/linkagi-model-api-openapi.json
+  operations: [getPublicPricing, createResponse]
+- file: linkagi-model-api-vendor-protocol-routes.md
+  name: Use the LinkAGI Anthropic-style and Gemini-style routes
+  api: openapi/linkagi-model-api-openapi.json
+  operations: [getPublicStatus, getPublicPricing, createAnthropicMessage, generateGeminiContent]

@@ -1,0 +1,346 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LinkAGI API",
+    "version": "2026-08-04",
+    "description": "LinkAGI AI API relay. Model availability and pricing change by route and pool; copy current model IDs from the live marketplace before sending a paid request.",
+    "termsOfService": "https://api.linktoagi.com/user-agreement",
+    "license": {
+      "name": "LinkAGI API Terms",
+      "url": "https://api.linktoagi.com/user-agreement"
+    },
+    "contact": {
+      "name": "LinkAGI Support",
+      "url": "https://docs.linktoagi.com/about.html#support",
+      "email": "linktoagi@163.com"
+    },
+    "x-linkagi-evidence": {
+      "checked": "2026-08-04",
+      "verified": [
+        "OpenAI Chat Completions: one authenticated HTTP 200 call using claude-opus-4-6 on 2026-08-03",
+        "OpenAI Responses: one authenticated HTTP 200 call using gpt-5.6-sol on 2026-08-04"
+      ],
+      "notVerified": [
+        "Authenticated model listing",
+        "Native Anthropic Messages compatibility",
+        "Gemini generateContent compatibility",
+        "Streaming and tool calling",
+        "Client-specific integrations"
+      ]
+    }
+  },
+  "externalDocs": {
+    "description": "LinkAGI documentation",
+    "url": "https://docs.linktoagi.com/?utm_source=openapi&utm_medium=developer_tool&utm_campaign=ecosystem_20260804&utm_content=external_docs"
+  },
+  "servers": [
+    {
+      "url": "https://api.linktoagi.com",
+      "description": "Production API"
+    }
+  ],
+  "tags": [
+    {"name": "Public metadata", "description": "Unauthenticated service status and live pricing metadata."},
+    {"name": "Discovery", "description": "Inspect the models visible to the current token group."},
+    {"name": "OpenAI compatible", "description": "OpenAI-compatible Chat Completions and Responses routes."},
+    {"name": "Anthropic-style route", "description": "Messages-shaped route advertised by the service. The route reaches authentication without a key; authenticated native compatibility has not been verified in the latest evidence set."},
+    {"name": "Gemini-style route", "description": "generateContent-shaped route advertised by the service. The route reaches authentication without a key; authenticated native compatibility has not been verified in the latest evidence set."}
+  ],
+  "paths": {
+    "/api/status": {
+      "get": {
+        "operationId": "getPublicStatus",
+        "summary": "Read public service status metadata",
+        "description": "Public unauthenticated JSON endpoint. HTTP 200 with a structured response was rechecked on 2026-08-04.",
+        "tags": ["Public metadata"],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Public service status response.",
+            "content": {
+              "application/json": {
+                "schema": {"type": "object", "additionalProperties": true}
+              }
+            }
+          },
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/api/pricing": {
+      "get": {
+        "operationId": "getPublicPricing",
+        "summary": "Read current machine-readable model pricing",
+        "description": "Public unauthenticated JSON endpoint. The response included pricing_version, model data, group ratios, supported endpoints and vendor metadata when rechecked on 2026-08-04. Prices and pools can change; retain the version or collection time and reconcile paid calls against usage logs.",
+        "tags": ["Public metadata"],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Current pricing metadata.",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PublicPricingResponse"}
+              }
+            }
+          },
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "operationId": "listModels",
+        "summary": "List models visible to the token",
+        "description": "Requires a valid token. The no-key route reaches authentication, but a fresh authenticated model-list response has not been verified in the latest public evidence set.",
+        "tags": ["Discovery"],
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Model list",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ModelList"}
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "operationId": "createChatCompletion",
+        "summary": "Create a chat completion",
+        "description": "Narrow public evidence: one non-streaming HTTP 200 call using claude-opus-4-6 on 2026-08-03. This does not establish long-term availability, streaming, tools, or compatibility for every model.",
+        "tags": ["OpenAI compatible"],
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/ChatCompletionRequest"},
+              "example": {
+                "model": "copy-a-current-chat-model-id",
+                "messages": [{"role": "user", "content": "Reply with: LinkAGI API ok"}],
+                "stream": false,
+                "max_tokens": 32
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Chat completion returned by the selected route."},
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/v1/responses": {
+      "post": {
+        "operationId": "createResponse",
+        "summary": "Create an OpenAI Responses-compatible response",
+        "description": "Narrow public evidence: one non-streaming HTTP 200 call using gpt-5.6-sol on 2026-08-04. This does not establish long-term availability, streaming, tools, or compatibility for every model.",
+        "tags": ["OpenAI compatible"],
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/ResponseRequest"},
+              "example": {
+                "model": "gpt-5.6-sol",
+                "input": "Reply with: LinkAGI Responses ok",
+                "stream": false,
+                "max_output_tokens": 32
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Response returned by the selected route."},
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/v1/messages": {
+      "post": {
+        "operationId": "createAnthropicMessage",
+        "summary": "Send a request to the Anthropic-style Messages route",
+        "description": "The public route reaches structured authentication without a key. A successful authenticated native Anthropic Messages request has not been verified in the latest evidence set; treat this operation as a documented surface pending compatibility testing.",
+        "tags": ["Anthropic-style route"],
+        "security": [{"anthropicApiKey": []}],
+        "parameters": [
+          {
+            "name": "anthropic-version",
+            "in": "header",
+            "required": true,
+            "schema": {"type": "string", "default": "2023-06-01"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/AnthropicMessageRequest"},
+              "example": {
+                "model": "copy-a-current-claude-model-id",
+                "max_tokens": 32,
+                "messages": [{"role": "user", "content": "Reply with: LinkAGI Messages ok"}]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Message returned by the selected route."},
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    },
+    "/v1beta/models/{model}:generateContent": {
+      "post": {
+        "operationId": "generateGeminiContent",
+        "summary": "Send a request to the Gemini-style generateContent route",
+        "description": "The public route reaches structured authentication without a key. A successful authenticated native Gemini generateContent request has not been verified in the latest evidence set; treat this operation as a documented surface pending compatibility testing.",
+        "tags": ["Gemini-style route"],
+        "security": [{"geminiApiKey": []}],
+        "parameters": [
+          {"name": "model", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/GeminiGenerateRequest"},
+              "example": {
+                "contents": [{"role": "user", "parts": [{"text": "Reply with: LinkAGI Gemini ok"}]}],
+                "generationConfig": {"maxOutputTokens": 32}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Response returned by the selected Gemini-style route. A successful native compatibility sample is not part of the latest public evidence set."},
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "429": {"$ref": "#/components/responses/RateLimited"}
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "API key"},
+      "anthropicApiKey": {"type": "apiKey", "in": "header", "name": "x-api-key"},
+      "geminiApiKey": {"type": "apiKey", "in": "header", "name": "x-goog-api-key"}
+    },
+    "responses": {
+      "BadRequest": {"description": "Invalid body, model ID, group, or unsupported request field."},
+      "Unauthorized": {"description": "Missing, invalid, expired, disabled, or unauthorized API key."},
+      "RateLimited": {"description": "Client, group, model, route, or upstream limit reached."}
+    },
+    "schemas": {
+      "PublicPricingResponse": {
+        "type": "object",
+        "properties": {
+          "success": {"type": "boolean"},
+          "pricing_version": {},
+          "data": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+          "group_ratio": {"type": "object", "additionalProperties": true},
+          "supported_endpoint": {},
+          "vendors": {},
+          "usable_group": {},
+          "auto_groups": {}
+        },
+        "required": ["success", "data"],
+        "additionalProperties": true
+      },
+      "Model": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "object": {"type": "string", "default": "model"},
+          "owned_by": {"type": "string"}
+        },
+        "required": ["id"]
+      },
+      "ModelList": {
+        "type": "object",
+        "properties": {
+          "object": {"type": "string", "default": "list"},
+          "data": {"type": "array", "items": {"$ref": "#/components/schemas/Model"}}
+        },
+        "required": ["data"]
+      },
+      "ChatMessage": {
+        "type": "object",
+        "properties": {
+          "role": {"type": "string", "enum": ["system", "developer", "user", "assistant", "tool"]},
+          "content": {}
+        },
+        "required": ["role", "content"],
+        "additionalProperties": true
+      },
+      "ChatCompletionRequest": {
+        "type": "object",
+        "properties": {
+          "model": {"type": "string"},
+          "messages": {"type": "array", "items": {"$ref": "#/components/schemas/ChatMessage"}},
+          "stream": {"type": "boolean", "default": false},
+          "max_tokens": {"type": "integer", "minimum": 1}
+        },
+        "required": ["model", "messages"],
+        "additionalProperties": true
+      },
+      "ResponseRequest": {
+        "type": "object",
+        "properties": {
+          "model": {"type": "string"},
+          "input": {},
+          "stream": {"type": "boolean", "default": false},
+          "max_output_tokens": {"type": "integer", "minimum": 1}
+        },
+        "required": ["model", "input"],
+        "additionalProperties": true
+      },
+      "AnthropicMessageRequest": {
+        "type": "object",
+        "properties": {
+          "model": {"type": "string"},
+          "max_tokens": {"type": "integer", "minimum": 1},
+          "messages": {"type": "array", "items": {"$ref": "#/components/schemas/ChatMessage"}},
+          "stream": {"type": "boolean", "default": false}
+        },
+        "required": ["model", "max_tokens", "messages"],
+        "additionalProperties": true
+      },
+      "GeminiPart": {
+        "type": "object",
+        "properties": {"text": {"type": "string"}},
+        "additionalProperties": true
+      },
+      "GeminiContent": {
+        "type": "object",
+        "properties": {
+          "role": {"type": "string"},
+          "parts": {"type": "array", "items": {"$ref": "#/components/schemas/GeminiPart"}}
+        },
+        "required": ["parts"]
+      },
+      "GeminiGenerateRequest": {
+        "type": "object",
+        "properties": {
+          "contents": {"type": "array", "items": {"$ref": "#/components/schemas/GeminiContent"}},
+          "generationConfig": {"type": "object", "additionalProperties": true}
+        },
+        "required": ["contents"],
+        "additionalProperties": true
+      }
+    }
+  }
+}

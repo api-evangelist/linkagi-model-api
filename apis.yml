@@ -1,10 +1,18 @@
 name: LinkAGI Model API
 description: >-
-  Third-party AI API relay/gateway exposing OpenAI-, Anthropic-, and Gemini-compatible HTTP routes fronting a pool of
-  hosted models. Pay-as-you-go prepaid billing; self-described AI 中转站 (relay/reseller).
+  LinkAGI is a Chinese third-party AI API relay (中转站) that fronts a pool of upstream model accounts behind a
+  single host, api.linktoagi.com, and re-exposes them on three imitated vendor protocols: OpenAI-compatible
+  Chat Completions and Responses, an Anthropic Messages-shaped route, and a Gemini generateContent-shaped
+  route. It is sold to developers running Codex, Claude Code, Gemini CLI and desktop chat clients who want a
+  CNY, prepaid, pay-as-you-go base-URL swap instead of a foreign card and a vendor account. A token belongs
+  to a group (号池) that decides which models it can address and at what billing ratio; the live model and
+  price table is published unauthenticated at /api/pricing. The service runs the open-source New API gateway
+  and publishes a first-party OpenAPI 3.1, APIs.json, llms.txt and Postman collection, plus an unusually
+  candid evidence boundary that marks its Anthropic and Gemini compatibility as advertised but unverified.
 url: https://linkagi-model-api.apievangelist.com/apis.yml
+image: https://api.linktoagi.com/favicon.svg
 created: '2026-08-04'
-modified: '2026-08-04'
+modified: '2026-08-09'
 specificationVersion: '0.21'
 tags:
   - AI
@@ -16,6 +24,8 @@ tags:
   - Gemini-compatible
   - developer tools
   - CLI coding agents
+  - model routing
+  - China
 apis:
   - name: LinkAGI API
     description: >-
@@ -35,16 +45,72 @@ apis:
       - CLI coding agents
     properties:
       - type: OpenAPI
-        url: https://raw.githubusercontent.com/16871233/linkagi-api-starter/main/openapi/linkagi.openapi.json
-      - type: PostmanCollection
-        url: https://www.postman.com/lhs-1-s-team/linkagi-api/collection/8nl8r40/linkagi-api
-      - type: Documentation
-        url: https://docs.linktoagi.com/
+        url: openapi/linkagi-model-api-openapi.json
+      - type: Overlay
+        url: overlays/linkagi-model-api-openapi-overlay.yaml
+      - type: DataModel
+        url: data-model/linkagi-model-api-data-model.yml
 maintainers:
   - FN: LinkAGI Support
+    email: linktoagi@163.com
     url: https://docs.linktoagi.com/about.html#support
+    organizationName: 福州市鼓楼区瀚海星矩网络技术工作室（个体工商户）
 generated:
   by: apis.io/add
   model: claude-opus-4-8
   confidence: 88
   at: '2026-08-04T14:15:08.769Z'
+common:
+- type: DomainSecurity
+  url: security/linkagi-model-api-domain-security.yml
+- type: Authentication
+  url: authentication/linkagi-model-api-authentication.yml
+- type: DeveloperPortal
+  url: https://api.linktoagi.com/
+- type: Documentation
+  url: https://docs.linktoagi.com/
+- type: GettingStarted
+  url: https://docs.linktoagi.com/codex-api.html
+- type: Support
+  url: https://docs.linktoagi.com/about.html#support
+- type: Blog
+  url: https://docs.linktoagi.com/articles/
+- type: BlogRSS
+  url: https://docs.linktoagi.com/feed.xml
+- type: GitHub
+  url: https://github.com/16871233/linkagi-api-starter
+- type: Pricing
+  url: https://api.linktoagi.com/pricing
+- type: SignUp
+  url: https://api.linktoagi.com/register
+- type: TermsOfService
+  url: https://api.linktoagi.com/user-agreement
+- type: PrivacyPolicy
+  url: https://api.linktoagi.com/privacy-policy
+- type: StatusPage
+  url: https://docs.linktoagi.com/status.html
+- type: Postman
+  url: https://www.postman.com/lhs-1-s-team/linkagi-api/collection/8nl8r40/linkagi-api
+- type: APIsJSON
+  url: https://docs.linktoagi.com/apis.json
+- type: LLMsTxt
+  url: llms/linkagi-model-api-llms.txt
+- type: ChangeLog
+  url: changelog/linkagi-model-api-changelog.yml
+- type: Lifecycle
+  url: lifecycle/linkagi-model-api-lifecycle.yml
+- type: Conventions
+  url: conventions/linkagi-model-api-conventions.yml
+- type: ErrorCatalog
+  url: errors/linkagi-model-api-problem-types.yml
+- type: Conformance
+  url: conformance/linkagi-model-api-conformance.yml
+- type: Packages
+  url: packages/linkagi-model-api-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-08-09'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1

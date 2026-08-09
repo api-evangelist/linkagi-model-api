@@ -1,0 +1,132 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/linkagi-model-api-openapi.json
+enriched_from: https://api.linktoagi.com/api/pricing (live response, fetched 2026-08-09)
+note: >-
+  A relay has a shallow object graph: there are no persisted resources with ids to fetch, only request
+  envelopes and two read-only metadata documents. The one entity that behaves like a first-class resource is
+  Model, and the field that actually governs behaviour is `group` (号池) — which is not in the OpenAPI schemas
+  at all, only in the live GET /api/pricing payload. It is recorded here as a derived entity so the
+  model/group/vendor relationship is not lost.
+entities:
+- name: Model
+  schema: '#/components/schemas/Model'
+  id_field: id
+  description: A model id addressable through the relay. Ids are upstream vendor ids (gemini-3.1-pro-low,
+    claude-sonnet-4-20250514, gpt-5.6-sol), not LinkAGI-minted ids.
+  read_operations:
+  - listModels
+  - getPublicPricing
+- name: ModelList
+  schema: '#/components/schemas/ModelList'
+  description: OpenAI-shaped envelope {object:"list", data:[Model]}. Unpaged.
+- name: Group
+  schema: null
+  derived_from: GET /api/pricing -> usable_group, group_ratio; and Model.enable_groups
+  description: >-
+    Token group / 号池. Decides which models a key can see and the billing ratio applied. Observed values on
+    2026-08-09 include "Codex | Pro号池", "Codex | Plus号池", "Codex | Sale号池", "ClaudeCode-Max",
+    "ClaudeCode-补贴渠道", "ClaudeCode-Kiro逆向", "DeepSeek", "GLM", "Gemini", "Gemini-Anti", "Grok", "default".
+  id_field: group name (string)
+- name: Vendor
+  schema: null
+  derived_from: GET /api/pricing -> vendors[], Model.vendor_id
+  id_field: vendor_id
+  description: Upstream supplier behind a model entry.
+- name: PricingEntry
+  schema: '#/components/schemas/PublicPricingResponse (data[] item)'
+  derived_from: GET /api/pricing
+  description: Per-model commercial record — model_name, vendor_id, quota_type, model_ratio,
+    completion_ratio, cache_ratio, create_cache_ratio, model_price, enable_groups[],
+    supported_endpoint_types[], pricing_version.
+- name: ChatCompletionRequest
+  schema: '#/components/schemas/ChatCompletionRequest'
+  kind: request-envelope
+- name: ChatMessage
+  schema: '#/components/schemas/ChatMessage'
+  kind: value-object
+  enum_field: role [system, developer, user, assistant, tool]
+- name: ResponseRequest
+  schema: '#/components/schemas/ResponseRequest'
+  kind: request-envelope
+- name: AnthropicMessageRequest
+  schema: '#/components/schemas/AnthropicMessageRequest'
+  kind: request-envelope
+- name: GeminiGenerateRequest
+  schema: '#/components/schemas/GeminiGenerateRequest'
+  kind: request-envelope
+- name: GeminiContent
+  schema: '#/components/schemas/GeminiContent'
+  kind: value-object
+- name: GeminiPart
+  schema: '#/components/schemas/GeminiPart'
+  kind: value-object
+relationships:
+- from: ModelList
+  to: Model
+  kind: has_many
+  via: data[]
+  evidence: '$ref in components.schemas.ModelList.properties.data.items'
+- from: ChatCompletionRequest
+  to: ChatMessage
+  kind: has_many
+  via: messages[]
+  evidence: '$ref in components.schemas.ChatCompletionRequest.properties.messages.items'
+- from: AnthropicMessageRequest
+  to: ChatMessage
+  kind: has_many
+  via: messages[]
+  evidence: '$ref in components.schemas.AnthropicMessageRequest.properties.messages.items'
+- from: GeminiGenerateRequest
+  to: GeminiContent
+  kind: has_many
+  via: contents[]
+  evidence: '$ref in components.schemas.GeminiGenerateRequest'
+- from: GeminiContent
+  to: GeminiPart
+  kind: has_many
+  via: parts[]
+  evidence: '$ref in components.schemas.GeminiContent'
+- from: ChatCompletionRequest
+  to: Model
+  kind: belongs_to
+  via: model
+  evidence: id-reference field; value must be a live Model.id
+- from: ResponseRequest
+  to: Model
+  kind: belongs_to
+  via: model
+  evidence: id-reference field
+- from: AnthropicMessageRequest
+  to: Model
+  kind: belongs_to
+  via: model
+  evidence: id-reference field
+- from: GeminiGenerateRequest
+  to: Model
+  kind: belongs_to
+  via: path parameter {model}
+  evidence: 'path /v1beta/models/{model}:generateContent'
+- from: PricingEntry
+  to: Model
+  kind: belongs_to
+  via: model_name
+  evidence: live /api/pricing payload
+- from: PricingEntry
+  to: Vendor
+  kind: belongs_to
+  via: vendor_id
+  evidence: live /api/pricing payload
+- from: Model
+  to: Group
+  kind: has_many
+  via: enable_groups[]
+  evidence: live /api/pricing payload — determines which tokens can address the model
+- from: Group
+  to: PricingEntry
+  kind: has_many
+  via: group_ratio applied to model_ratio
+  evidence: live /api/pricing payload
+id_prefixes: []
+id_prefix_note: The relay mints no ids of its own; every identifier is an upstream vendor model id or a
+  LinkAGI group name.
