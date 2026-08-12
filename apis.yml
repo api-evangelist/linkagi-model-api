@@ -27,29 +27,70 @@ tags:
   - model routing
   - China
 apis:
-  - name: LinkAGI API
-    description: >-
-      REST relay exposing OpenAI-compatible Chat Completions and Responses, Anthropic Messages-compatible, and Gemini
-      generateContent-compatible routes over a single host.
-    humanURL: https://docs.linktoagi.com/
-    baseURL: https://api.linktoagi.com
-    tags:
-      - AI
-      - LLM
-      - AI API gateway
-      - relay
-      - OpenAI-compatible
-      - Anthropic-compatible
-      - Gemini-compatible
-      - developer tools
-      - CLI coding agents
-    properties:
-      - type: OpenAPI
-        url: openapi/linkagi-model-api-openapi.json
-      - type: Overlay
-        url: overlays/linkagi-model-api-openapi-overlay.yaml
-      - type: DataModel
-        url: data-model/linkagi-model-api-data-model.yml
+- aid: linkagi-model-api:linkagi-model-api-anthropic-style-route-api
+  name: LinkAGI Model API Anthropic-style route API
+  description: >-
+    Messages-shaped route advertised by the service. The route reaches authentication without a key; authenticated
+    native compatibility has not been verified in the latest evidence set.
+  humanURL: https://docs.linktoagi.com/
+  baseURL: https://api.linktoagi.com
+  tags:
+  - Anthropic-style route
+  properties:
+  - type: OpenAPI
+    url: openapi/linkagi-model-api-anthropic-style-route-api-openapi.yml
+  - type: DataModel
+    url: data-model/linkagi-model-api-data-model.yml
+- aid: linkagi-model-api:linkagi-model-api-discovery-api
+  name: LinkAGI Model API Discovery API
+  description: Inspect the models visible to the current token group.
+  humanURL: https://docs.linktoagi.com/
+  baseURL: https://api.linktoagi.com
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/linkagi-model-api-discovery-api-openapi.yml
+  - type: DataModel
+    url: data-model/linkagi-model-api-data-model.yml
+- aid: linkagi-model-api:linkagi-model-api-gemini-style-route-api
+  name: LinkAGI Model API Gemini-style route API
+  description: >-
+    generateContent-shaped route advertised by the service. The route reaches authentication without a
+    key; authenticated native compatibility has not been verified in the latest evidence set.
+  humanURL: https://docs.linktoagi.com/
+  baseURL: https://api.linktoagi.com
+  tags:
+  - Gemini-style route
+  properties:
+  - type: OpenAPI
+    url: openapi/linkagi-model-api-gemini-style-route-api-openapi.yml
+  - type: DataModel
+    url: data-model/linkagi-model-api-data-model.yml
+- aid: linkagi-model-api:linkagi-model-api-openai-compatible-api
+  name: LinkAGI Model API OpenAI compatible API
+  description: OpenAI-compatible Chat Completions and Responses routes.
+  humanURL: https://docs.linktoagi.com/
+  baseURL: https://api.linktoagi.com
+  tags:
+  - OpenAI compatible
+  properties:
+  - type: OpenAPI
+    url: openapi/linkagi-model-api-openai-compatible-api-openapi.yml
+  - type: DataModel
+    url: data-model/linkagi-model-api-data-model.yml
+- aid: linkagi-model-api:linkagi-model-api-public-metadata-api
+  name: LinkAGI Model API Public metadata API
+  description: Unauthenticated service status and live pricing metadata.
+  humanURL: https://docs.linktoagi.com/
+  baseURL: https://api.linktoagi.com
+  tags:
+  - Public metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/linkagi-model-api-public-metadata-api-openapi.yml
+  - type: DataModel
+    url: data-model/linkagi-model-api-data-model.yml
 maintainers:
   - FN: LinkAGI Support
     email: linktoagi@163.com
@@ -61,6 +102,10 @@ generated:
   confidence: 88
   at: '2026-08-04T14:15:08.769Z'
 common:
+- type: MCPServer
+  url: mcp/linkagi-model-api-mcp.yml
+- type: Overlay
+  url: overlays/linkagi-model-api-openapi-overlay.yaml
 - type: DomainSecurity
   url: security/linkagi-model-api-domain-security.yml
 - type: Authentication
