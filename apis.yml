@@ -9,7 +9,7 @@ description: >-
   price table is published unauthenticated at /api/pricing. The service runs the open-source New API gateway
   and publishes a first-party OpenAPI 3.1, APIs.json, llms.txt and Postman collection, plus an unusually
   candid evidence boundary that marks its Anthropic and Gemini compatibility as advertised but unverified.
-url: https://linkagi-model-api.apievangelist.com/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/linkagi-model-api/refs/heads/main/apis.yml
 image: https://api.linktoagi.com/favicon.svg
 created: '2026-08-04'
 modified: '2026-08-09'
