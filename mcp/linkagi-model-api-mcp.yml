@@ -2,11 +2,11 @@ generated: '2026-08-09'
 method: derived
 status: candidate
 source: openapi/linkagi-model-api-openapi.json
-note: >-
-  LinkAGI publishes NO MCP server. This file is a derived candidate design, not a provider claim, and no
-  `type: MCPServer` pointer is wired into apis.yml — doing so would credit an agent surface that does not
-  exist. MCP appears on the LinkAGI site only as a client-side troubleshooting topic. Re-probe on the next
-  round; if a real server appears, replace this file with the searched version and add the pointer then.
+note: 'LinkAGI publishes NO MCP server. This file is a derived candidate design, not a provider claim,
+  and no `type: MCPServer` pointer is wired into apis.yml — doing so would credit an agent surface that
+  does not exist. MCP appears on the LinkAGI site only as a client-side troubleshooting topic. Re-probe
+  on the next round; if a real server appears, replace this file with the searched version and add the
+  pointer then.'
 probes:
 - url: https://api.linktoagi.com/mcp
   method: POST tools/list
@@ -51,8 +51,8 @@ tools:
   auth_required: true
   billable: true
 - name: create_anthropic_message
-  description: Send an Anthropic Messages-shaped request through the relay (billable, compatibility
-    unverified by the provider)
+  description: Send an Anthropic Messages-shaped request through the relay (billable, compatibility unverified
+    by the provider)
   source_operation: openapi/linkagi-model-api-openapi.json#createAnthropicMessage
   auth_required: true
   billable: true
@@ -62,3 +62,9 @@ tools:
   source_operation: openapi/linkagi-model-api-openapi.json#generateGeminiContent
   auth_required: true
   billable: true
+deployment:
+  mode: none
+  verified: derived
+  tools: 7
+  checked: '2026-08-12'
+  source: catalog MCP census

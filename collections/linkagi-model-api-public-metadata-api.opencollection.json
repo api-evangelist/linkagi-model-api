@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LinkAGI Public metadata API",
+    "version": "2026-08-04"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Public metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read public service status metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.linktoagi.com/api/status"
+          },
+          "docs": "Public unauthenticated JSON endpoint. HTTP 200 with a structured response was rechecked on 2026-08-04."
+        },
+        {
+          "info": {
+            "name": "Read current machine-readable model pricing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.linktoagi.com/api/pricing"
+          },
+          "docs": "Public unauthenticated JSON endpoint. The response included pricing_version, model data, group ratios, supported endpoints and vendor metadata when rechecked on 2026-08-04. Prices and pools can change; retain the version or collection time and reconcile paid calls against usage logs."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

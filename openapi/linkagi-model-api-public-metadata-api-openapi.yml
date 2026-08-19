@@ -1,0 +1,109 @@
+openapi: 3.2.0
+info:
+  title: LinkAGI Public metadata API
+  version: '2026-08-04'
+  description: LinkAGI AI API relay. Model availability and pricing change by route and pool; copy current model IDs from the live marketplace before sending a paid request.
+  termsOfService: https://api.linktoagi.com/user-agreement
+  license:
+    name: LinkAGI API Terms
+    url: https://api.linktoagi.com/user-agreement
+  contact:
+    name: LinkAGI Support
+    url: https://docs.linktoagi.com/about.html#support
+    email: linktoagi@163.com
+  x-linkagi-evidence:
+    checked: '2026-08-04'
+    verified:
+    - 'OpenAI Chat Completions: one authenticated HTTP 200 call using claude-opus-4-6 on 2026-08-03'
+    - 'OpenAI Responses: one authenticated HTTP 200 call using gpt-5.6-sol on 2026-08-04'
+    notVerified:
+    - Authenticated model listing
+    - Native Anthropic Messages compatibility
+    - Gemini generateContent compatibility
+    - Streaming and tool calling
+    - Client-specific integrations
+servers:
+- url: https://api.linktoagi.com
+  description: Production API
+tags:
+- name: Public metadata
+  description: Unauthenticated service status and live pricing metadata.
+paths:
+  /api/status:
+    get:
+      operationId: getPublicStatus
+      summary: Read public service status metadata
+      description: Public unauthenticated JSON endpoint. HTTP 200 with a structured response was rechecked on 2026-08-04.
+      tags:
+      - Public metadata
+      security: []
+      responses:
+        '200':
+          description: Public service status response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /api/pricing:
+    get:
+      operationId: getPublicPricing
+      summary: Read current machine-readable model pricing
+      description: Public unauthenticated JSON endpoint. The response included pricing_version, model data, group ratios, supported endpoints and vendor metadata when rechecked on 2026-08-04. Prices and pools can change; retain the version or collection time and reconcile paid calls against usage logs.
+      tags:
+      - Public metadata
+      security: []
+      responses:
+        '200':
+          description: Current pricing metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicPricingResponse'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
+  schemas:
+    PublicPricingResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        pricing_version: {}
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        group_ratio:
+          type: object
+          additionalProperties: true
+        supported_endpoint: {}
+        vendors: {}
+        usable_group: {}
+        auto_groups: {}
+      required:
+      - success
+      - data
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key
+    anthropicApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+    geminiApiKey:
+      type: apiKey
+      in: header
+      name: x-goog-api-key
+externalDocs:
+  description: LinkAGI documentation
+  url: https://docs.linktoagi.com/?utm_source=openapi&utm_medium=developer_tool&utm_campaign=ecosystem_20260804&utm_content=external_docs

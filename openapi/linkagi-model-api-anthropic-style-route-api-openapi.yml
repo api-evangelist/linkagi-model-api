@@ -1,0 +1,129 @@
+openapi: 3.2.0
+info:
+  title: LinkAGI Anthropic-style route API
+  version: '2026-08-04'
+  description: LinkAGI AI API relay. Model availability and pricing change by route and pool; copy current model IDs from the live marketplace before sending a paid request.
+  termsOfService: https://api.linktoagi.com/user-agreement
+  license:
+    name: LinkAGI API Terms
+    url: https://api.linktoagi.com/user-agreement
+  contact:
+    name: LinkAGI Support
+    url: https://docs.linktoagi.com/about.html#support
+    email: linktoagi@163.com
+  x-linkagi-evidence:
+    checked: '2026-08-04'
+    verified:
+    - 'OpenAI Chat Completions: one authenticated HTTP 200 call using claude-opus-4-6 on 2026-08-03'
+    - 'OpenAI Responses: one authenticated HTTP 200 call using gpt-5.6-sol on 2026-08-04'
+    notVerified:
+    - Authenticated model listing
+    - Native Anthropic Messages compatibility
+    - Gemini generateContent compatibility
+    - Streaming and tool calling
+    - Client-specific integrations
+servers:
+- url: https://api.linktoagi.com
+  description: Production API
+tags:
+- name: Anthropic-style route
+  description: Messages-shaped route advertised by the service. The route reaches authentication without a key; authenticated native compatibility has not been verified in the latest evidence set.
+paths:
+  /v1/messages:
+    post:
+      operationId: createAnthropicMessage
+      summary: Send a request to the Anthropic-style Messages route
+      description: The public route reaches structured authentication without a key. A successful authenticated native Anthropic Messages request has not been verified in the latest evidence set; treat this operation as a documented surface pending compatibility testing.
+      tags:
+      - Anthropic-style route
+      security:
+      - anthropicApiKey: []
+      parameters:
+      - name: anthropic-version
+        in: header
+        required: true
+        schema:
+          type: string
+          default: '2023-06-01'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnthropicMessageRequest'
+            example:
+              model: copy-a-current-claude-model-id
+              max_tokens: 32
+              messages:
+              - role: user
+                content: 'Reply with: LinkAGI Messages ok'
+      responses:
+        '200':
+          description: Message returned by the selected route.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
+    BadRequest:
+      description: Invalid body, model ID, group, or unsupported request field.
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
+  schemas:
+    AnthropicMessageRequest:
+      type: object
+      properties:
+        model:
+          type: string
+        max_tokens:
+          type: integer
+          minimum: 1
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatMessage'
+        stream:
+          type: boolean
+          default: false
+      required:
+      - model
+      - max_tokens
+      - messages
+      additionalProperties: true
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - developer
+          - user
+          - assistant
+          - tool
+        content: {}
+      required:
+      - role
+      - content
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key
+    anthropicApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+    geminiApiKey:
+      type: apiKey
+      in: header
+      name: x-goog-api-key
+externalDocs:
+  description: LinkAGI documentation
+  url: https://docs.linktoagi.com/?utm_source=openapi&utm_medium=developer_tool&utm_campaign=ecosystem_20260804&utm_content=external_docs

@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LinkAGI OpenAI compatible API",
+    "version": "2026-08-04"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OpenAI compatible",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a chat completion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.linktoagi.com/v1/chat/completions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Narrow public evidence: one non-streaming HTTP 200 call using claude-opus-4-6 on 2026-08-03. This does not establish long-term availability, streaming, tools, or compatibility for every model."
+        },
+        {
+          "info": {
+            "name": "Create an OpenAI Responses-compatible response",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.linktoagi.com/v1/responses",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Narrow public evidence: one non-streaming HTTP 200 call using gpt-5.6-sol on 2026-08-04. This does not establish long-term availability, streaming, tools, or compatibility for every model."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

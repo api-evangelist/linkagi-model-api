@@ -1,0 +1,29 @@
+{
+  "provider": "linkagi-model-api",
+  "sources": [
+    "linkagi-model-api-anthropic-style-route-api-openapi.yml",
+    "linkagi-model-api-discovery-api-openapi.yml",
+    "linkagi-model-api-gemini-style-route-api-openapi.yml",
+    "linkagi-model-api-openai-compatible-api-openapi.yml",
+    "linkagi-model-api-public-metadata-api-openapi.yml"
+  ],
+  "outputs": [
+    "linkagi-model-api-anthropic-style-route-api-openapi.yml",
+    "linkagi-model-api-discovery-api-openapi.yml",
+    "linkagi-model-api-gemini-style-route-api-openapi.yml",
+    "linkagi-model-api-openai-compatible-api-openapi.yml",
+    "linkagi-model-api-public-metadata-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "linkagi-model-api-anthropic-style-route-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "linkagi-model-api-discovery-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "linkagi-model-api-gemini-style-route-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "linkagi-model-api-openai-compatible-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "linkagi-model-api-public-metadata-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

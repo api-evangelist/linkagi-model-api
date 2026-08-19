@@ -1,0 +1,236 @@
+{
+  "item": [
+    {
+      "id": "2d0617a0-befa-4350-af1c-d67481d93d6e",
+      "name": "Public metadata",
+      "description": {
+        "content": "Unauthenticated service status and live pricing metadata.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e989a6ee-beb5-45ec-85a0-d7a133c684a2",
+          "name": "Read public service status metadata",
+          "request": {
+            "name": "Read public service status metadata",
+            "description": {
+              "content": "Public unauthenticated JSON endpoint. HTTP 200 with a structured response was rechecked on 2026-08-04.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "87e5d734-d11c-4681-a283-01ecc7a89663",
+              "name": "Public service status response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\",\n  \"key_1\": 4616,\n  \"key_2\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e47a0ee-cdda-40af-a17f-9277a2995310",
+              "name": "Client, group, model, route, or upstream limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fde85c79-778b-4cd0-b5e9-19acb2d3fd84",
+          "name": "Read current machine-readable model pricing",
+          "request": {
+            "name": "Read current machine-readable model pricing",
+            "description": {
+              "content": "Public unauthenticated JSON endpoint. The response included pricing_version, model data, group ratios, supported endpoints and vendor metadata when rechecked on 2026-08-04. Prices and pools can change; retain the version or collection time and reconcile paid calls against usage logs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "pricing"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4c013c73-57a7-4b56-b698-7186411daa6c",
+              "name": "Current pricing metadata.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"data\": [\n    {\n      \"key_0\": 9374\n    },\n    {\n      \"key_0\": 911.703824347353,\n      \"key_1\": \"string\"\n    }\n  ],\n  \"pricing_version\": \"\",\n  \"group_ratio\": {\n    \"key_0\": 9622.231069361504,\n    \"key_1\": false\n  },\n  \"supported_endpoint\": \"\",\n  \"vendors\": \"\",\n  \"usable_group\": \"\",\n  \"auto_groups\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f223979-0b82-4008-ab69-3f4041815f87",
+              "name": "Client, group, model, route, or upstream limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "pricing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.linktoagi.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "131ed82b-ab1c-40c1-91e9-3769a785e4f6",
+    "name": "LinkAGI Public metadata API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "LinkAGI AI API relay. Model availability and pricing change by route and pool; copy current model IDs from the live marketplace before sending a paid request.\n\nContact Support:\n Name: LinkAGI Support\n Email: linktoagi@163.com",
+      "type": "text/plain"
+    }
+  }
+}

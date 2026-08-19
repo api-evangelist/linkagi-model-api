@@ -1,0 +1,167 @@
+openapi: 3.2.0
+info:
+  title: LinkAGI OpenAI compatible API
+  version: '2026-08-04'
+  description: LinkAGI AI API relay. Model availability and pricing change by route and pool; copy current model IDs from the live marketplace before sending a paid request.
+  termsOfService: https://api.linktoagi.com/user-agreement
+  license:
+    name: LinkAGI API Terms
+    url: https://api.linktoagi.com/user-agreement
+  contact:
+    name: LinkAGI Support
+    url: https://docs.linktoagi.com/about.html#support
+    email: linktoagi@163.com
+  x-linkagi-evidence:
+    checked: '2026-08-04'
+    verified:
+    - 'OpenAI Chat Completions: one authenticated HTTP 200 call using claude-opus-4-6 on 2026-08-03'
+    - 'OpenAI Responses: one authenticated HTTP 200 call using gpt-5.6-sol on 2026-08-04'
+    notVerified:
+    - Authenticated model listing
+    - Native Anthropic Messages compatibility
+    - Gemini generateContent compatibility
+    - Streaming and tool calling
+    - Client-specific integrations
+servers:
+- url: https://api.linktoagi.com
+  description: Production API
+tags:
+- name: OpenAI compatible
+  description: OpenAI-compatible Chat Completions and Responses routes.
+paths:
+  /v1/chat/completions:
+    post:
+      operationId: createChatCompletion
+      summary: Create a chat completion
+      description: 'Narrow public evidence: one non-streaming HTTP 200 call using claude-opus-4-6 on 2026-08-03. This does not establish long-term availability, streaming, tools, or compatibility for every model.'
+      tags:
+      - OpenAI compatible
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+            example:
+              model: copy-a-current-chat-model-id
+              messages:
+              - role: user
+                content: 'Reply with: LinkAGI API ok'
+              stream: false
+              max_tokens: 32
+      responses:
+        '200':
+          description: Chat completion returned by the selected route.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /v1/responses:
+    post:
+      operationId: createResponse
+      summary: Create an OpenAI Responses-compatible response
+      description: 'Narrow public evidence: one non-streaming HTTP 200 call using gpt-5.6-sol on 2026-08-04. This does not establish long-term availability, streaming, tools, or compatibility for every model.'
+      tags:
+      - OpenAI compatible
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResponseRequest'
+            example:
+              model: gpt-5.6-sol
+              input: 'Reply with: LinkAGI Responses ok'
+              stream: false
+              max_output_tokens: 32
+      responses:
+        '200':
+          description: Response returned by the selected route.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
+    BadRequest:
+      description: Invalid body, model ID, group, or unsupported request field.
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
+  schemas:
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - developer
+          - user
+          - assistant
+          - tool
+        content: {}
+      required:
+      - role
+      - content
+      additionalProperties: true
+    ChatCompletionRequest:
+      type: object
+      properties:
+        model:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatMessage'
+        stream:
+          type: boolean
+          default: false
+        max_tokens:
+          type: integer
+          minimum: 1
+      required:
+      - model
+      - messages
+      additionalProperties: true
+    ResponseRequest:
+      type: object
+      properties:
+        model:
+          type: string
+        input: {}
+        stream:
+          type: boolean
+          default: false
+        max_output_tokens:
+          type: integer
+          minimum: 1
+      required:
+      - model
+      - input
+      additionalProperties: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key
+    anthropicApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+    geminiApiKey:
+      type: apiKey
+      in: header
+      name: x-goog-api-key
+externalDocs:
+  description: LinkAGI documentation
+  url: https://docs.linktoagi.com/?utm_source=openapi&utm_medium=developer_tool&utm_campaign=ecosystem_20260804&utm_content=external_docs

@@ -1,0 +1,98 @@
+openapi: 3.2.0
+info:
+  title: LinkAGI Discovery API
+  version: '2026-08-04'
+  description: LinkAGI AI API relay. Model availability and pricing change by route and pool; copy current model IDs from the live marketplace before sending a paid request.
+  termsOfService: https://api.linktoagi.com/user-agreement
+  license:
+    name: LinkAGI API Terms
+    url: https://api.linktoagi.com/user-agreement
+  contact:
+    name: LinkAGI Support
+    url: https://docs.linktoagi.com/about.html#support
+    email: linktoagi@163.com
+  x-linkagi-evidence:
+    checked: '2026-08-04'
+    verified:
+    - 'OpenAI Chat Completions: one authenticated HTTP 200 call using claude-opus-4-6 on 2026-08-03'
+    - 'OpenAI Responses: one authenticated HTTP 200 call using gpt-5.6-sol on 2026-08-04'
+    notVerified:
+    - Authenticated model listing
+    - Native Anthropic Messages compatibility
+    - Gemini generateContent compatibility
+    - Streaming and tool calling
+    - Client-specific integrations
+servers:
+- url: https://api.linktoagi.com
+  description: Production API
+tags:
+- name: Discovery
+  description: Inspect the models visible to the current token group.
+paths:
+  /v1/models:
+    get:
+      operationId: listModels
+      summary: List models visible to the token
+      description: Requires a valid token. The no-key route reaches authentication, but a fresh authenticated model-list response has not been verified in the latest public evidence set.
+      tags:
+      - Discovery
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Model list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
+  schemas:
+    ModelList:
+      type: object
+      properties:
+        object:
+          type: string
+          default: list
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
+      required:
+      - data
+    Model:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          default: model
+        owned_by:
+          type: string
+      required:
+      - id
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API key
+    anthropicApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+    geminiApiKey:
+      type: apiKey
+      in: header
+      name: x-goog-api-key
+externalDocs:
+  description: LinkAGI documentation
+  url: https://docs.linktoagi.com/?utm_source=openapi&utm_medium=developer_tool&utm_campaign=ecosystem_20260804&utm_content=external_docs

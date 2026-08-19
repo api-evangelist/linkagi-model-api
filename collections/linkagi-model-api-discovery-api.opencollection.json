@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LinkAGI Discovery API",
+    "version": "2026-08-04"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Discovery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List models visible to the token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.linktoagi.com/v1/models",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Requires a valid token. The no-key route reaches authentication, but a fresh authenticated model-list response has not been verified in the latest public evidence set."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
