@@ -10,6 +10,18 @@ description: >-
   and publishes a first-party OpenAPI 3.1, APIs.json, llms.txt and Postman collection, plus an unusually
   candid evidence boundary that marks its Anthropic and Gemini compatibility as advertised but unverified.
 url: https://raw.githubusercontent.com/api-evangelist/linkagi-model-api/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://api.linktoagi.com/favicon.svg
 created: '2026-08-04'
 modified: '2026-08-09'
