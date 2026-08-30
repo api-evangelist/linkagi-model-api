@@ -29,14 +29,14 @@ specificationVersion: '0.23'
 tags:
   - Artificial Intelligence
   - LLM
-  - AI API Gateway
-  - Relay
-  - OpenAI-Compatible
-  - Anthropic Compatible
+  - AI API gateway
+  - relay
+  - OpenAI-compatible
+  - Anthropic-compatible
   - Gemini-compatible
   - Developer Tools
   - CLI coding agents
-  - Model Routing
+  - model routing
   - China
 tags_raw:
   - AI
@@ -97,7 +97,7 @@ apis:
   humanURL: https://docs.linktoagi.com/
   baseURL: https://api.linktoagi.com
   tags:
-  - OpenAI-Compatible
+  - OpenAI compatible
   tags_raw:
   - OpenAI compatible
   properties:
