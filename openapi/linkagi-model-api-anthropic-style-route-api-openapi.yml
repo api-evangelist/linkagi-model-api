@@ -68,13 +68,29 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
-    Unauthorized:
-      description: Missing, invalid, expired, disabled, or unauthorized API key.
     BadRequest:
       description: Invalid body, model ID, group, or unsupported request field.
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
     RateLimited:
       description: Client, group, model, route, or upstream limit reached.
   schemas:
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - developer
+          - user
+          - assistant
+          - tool
+        content: {}
+      required:
+      - role
+      - content
+      additionalProperties: true
     AnthropicMessageRequest:
       type: object
       properties:
@@ -94,22 +110,6 @@ components:
       - model
       - max_tokens
       - messages
-      additionalProperties: true
-    ChatMessage:
-      type: object
-      properties:
-        role:
-          type: string
-          enum:
-          - system
-          - developer
-          - user
-          - assistant
-          - tool
-        content: {}
-      required:
-      - role
-      - content
       additionalProperties: true
   securitySchemes:
     bearerAuth:

@@ -68,10 +68,10 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
-    Unauthorized:
-      description: Missing, invalid, expired, disabled, or unauthorized API key.
     BadRequest:
       description: Invalid body, model ID, group, or unsupported request field.
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
     RateLimited:
       description: Client, group, model, route, or upstream limit reached.
   schemas:
@@ -86,6 +86,12 @@ components:
             $ref: '#/components/schemas/GeminiPart'
       required:
       - parts
+    GeminiPart:
+      type: object
+      properties:
+        text:
+          type: string
+      additionalProperties: true
     GeminiGenerateRequest:
       type: object
       properties:
@@ -98,12 +104,6 @@ components:
           additionalProperties: true
       required:
       - contents
-      additionalProperties: true
-    GeminiPart:
-      type: object
-      properties:
-        text:
-          type: string
       additionalProperties: true
   securitySchemes:
     bearerAuth:

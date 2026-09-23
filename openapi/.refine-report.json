@@ -1,11 +1,7 @@
 {
   "provider": "linkagi-model-api",
   "sources": [
-    "linkagi-model-api-anthropic-style-route-api-openapi.yml",
-    "linkagi-model-api-discovery-api-openapi.yml",
-    "linkagi-model-api-gemini-style-route-api-openapi.yml",
-    "linkagi-model-api-openai-compatible-api-openapi.yml",
-    "linkagi-model-api-public-metadata-api-openapi.yml"
+    "_original/linkagi-model-api-openapi.json"
   ],
   "outputs": [
     "linkagi-model-api-anthropic-style-route-api-openapi.yml",
@@ -18,12 +14,15 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "linkagi-model-api-anthropic-style-route-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "linkagi-model-api-discovery-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "linkagi-model-api-gemini-style-route-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "linkagi-model-api-openai-compatible-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "linkagi-model-api-public-metadata-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "linkagi-model-api-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "linkagi-model-api-anthropic-style-route-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "linkagi-model-api-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "linkagi-model-api-gemini-style-route-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "linkagi-model-api-openai-compatible-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "linkagi-model-api-public-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
