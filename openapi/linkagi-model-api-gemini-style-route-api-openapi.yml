@@ -67,14 +67,13 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    BadRequest:
-      description: Invalid body, model ID, group, or unsupported request field.
-    Unauthorized:
-      description: Missing, invalid, expired, disabled, or unauthorized API key.
-    RateLimited:
-      description: Client, group, model, route, or upstream limit reached.
   schemas:
+    GeminiPart:
+      type: object
+      properties:
+        text:
+          type: string
+      additionalProperties: true
     GeminiContent:
       type: object
       properties:
@@ -86,12 +85,6 @@ components:
             $ref: '#/components/schemas/GeminiPart'
       required:
       - parts
-    GeminiPart:
-      type: object
-      properties:
-        text:
-          type: string
-      additionalProperties: true
     GeminiGenerateRequest:
       type: object
       properties:
@@ -105,6 +98,13 @@ components:
       required:
       - contents
       additionalProperties: true
+  responses:
+    BadRequest:
+      description: Invalid body, model ID, group, or unsupported request field.
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
   securitySchemes:
     bearerAuth:
       type: http

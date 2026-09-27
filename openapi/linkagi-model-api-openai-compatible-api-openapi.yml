@@ -98,6 +98,22 @@ components:
     RateLimited:
       description: Client, group, model, route, or upstream limit reached.
   schemas:
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - developer
+          - user
+          - assistant
+          - tool
+        content: {}
+      required:
+      - role
+      - content
+      additionalProperties: true
     ResponseRequest:
       type: object
       properties:
@@ -132,22 +148,6 @@ components:
       required:
       - model
       - messages
-      additionalProperties: true
-    ChatMessage:
-      type: object
-      properties:
-        role:
-          type: string
-          enum:
-          - system
-          - developer
-          - user
-          - assistant
-          - tool
-        content: {}
-      required:
-      - role
-      - content
       additionalProperties: true
   securitySchemes:
     bearerAuth:
