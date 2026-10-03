@@ -68,12 +68,12 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
     BadRequest:
       description: Invalid body, model ID, group, or unsupported request field.
     Unauthorized:
       description: Missing, invalid, expired, disabled, or unauthorized API key.
-    RateLimited:
-      description: Client, group, model, route, or upstream limit reached.
   schemas:
     AnthropicMessageRequest:
       type: object

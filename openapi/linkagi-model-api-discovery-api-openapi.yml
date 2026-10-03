@@ -50,24 +50,7 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    RateLimited:
-      description: Client, group, model, route, or upstream limit reached.
-    Unauthorized:
-      description: Missing, invalid, expired, disabled, or unauthorized API key.
   schemas:
-    ModelList:
-      type: object
-      properties:
-        object:
-          type: string
-          default: list
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Model'
-      required:
-      - data
     Model:
       type: object
       properties:
@@ -80,6 +63,23 @@ components:
           type: string
       required:
       - id
+    ModelList:
+      type: object
+      properties:
+        object:
+          type: string
+          default: list
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
+      required:
+      - data
+  responses:
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
   securitySchemes:
     bearerAuth:
       type: http
