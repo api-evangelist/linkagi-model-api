@@ -65,6 +65,9 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
   schemas:
     PublicPricingResponse:
       type: object
@@ -88,9 +91,6 @@ components:
       - success
       - data
       additionalProperties: true
-  responses:
-    RateLimited:
-      description: Client, group, model, route, or upstream limit reached.
   securitySchemes:
     bearerAuth:
       type: http

@@ -90,13 +90,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    RateLimited:
-      description: Client, group, model, route, or upstream limit reached.
-    BadRequest:
-      description: Invalid body, model ID, group, or unsupported request field.
-    Unauthorized:
-      description: Missing, invalid, expired, disabled, or unauthorized API key.
   schemas:
     ResponseRequest:
       type: object
@@ -149,6 +142,13 @@ components:
       - role
       - content
       additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Missing, invalid, expired, disabled, or unauthorized API key.
+    BadRequest:
+      description: Invalid body, model ID, group, or unsupported request field.
+    RateLimited:
+      description: Client, group, model, route, or upstream limit reached.
   securitySchemes:
     bearerAuth:
       type: http
