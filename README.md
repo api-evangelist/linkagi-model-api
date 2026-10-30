@@ -1,4 +1,4 @@
-# LinkAGI Model API (linkagi-model-api)
+# LinkAGI Model API
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,150 +66,117 @@
 
 LinkAGI is a Chinese third-party AI API relay (中转站) that fronts a pool of upstream model accounts behind a single host, api.linktoagi.com, and re-exposes them on three imitated vendor protocols: OpenAI-compatible Chat Completions and Responses, an Anthropic Messages-shaped route, and a Gemini generateContent-shaped route. It is sold to developers running Codex, Claude Code, Gemini CLI and desktop chat clients who want a CNY, prepaid, pay-as-you-go base-URL swap instead of a foreign card and a vendor account. A token belongs to a group (号池) that decides which models it can address and at what billing ratio; the live model and price table is published unauthenticated at /api/pricing. The service runs the open-source New API gateway and publishes a first-party OpenAPI 3.1, APIs.json, llms.txt and Postman collection, plus an unusually candid evidence boundary that marks its Anthropic and Gemini compatibility as advertised but unverified.
 
-**APIs.json:** [https://linkagi-model-api.apievangelist.com/apis.yml](https://linkagi-model-api.apievangelist.com/apis.yml)
+**Areas:** Artificial Intelligence · LLM · AI API Gateway · Relay · OpenAI-Compatible · Anthropic Compatible · Gemini-compatible · Developer Tools · CLI coding agents · Model Routing · China
 
-## Tags
+## LinkAGI Model API on APIs.io
 
-- AI
-- LLM
-- AI API gateway
-- relay
-- OpenAI-compatible
-- Anthropic-compatible
-- Gemini-compatible
-- developer tools
-- CLI coding agents
-- model routing
-- China
+Everything profiled for LinkAGI Model API is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/linkagi-model-api/](https://apis.io/providers/linkagi-model-api/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (5)
 
-- **Created:** 2026-08-04
-- **Modified:** 2026-08-09
+- [LinkAGI Model API Anthropic-style route API](https://apis.io/apis/linkagi-model-api/linkagi-model-api-anthropic-style-route-api/) — Messages-shaped route advertised by the service. The route reaches authentication without a key; authenticated native compatibility has not been verified in…
+- [LinkAGI Model API Discovery API](https://apis.io/apis/linkagi-model-api/linkagi-model-api-discovery-api/) — Inspect the models visible to the current token group.
+- [LinkAGI Model API Gemini-style route API](https://apis.io/apis/linkagi-model-api/linkagi-model-api-gemini-style-route-api/) — generateContent-shaped route advertised by the service. The route reaches authentication without a key; authenticated native compatibility has not been…
+- [LinkAGI Model API OpenAI compatible API](https://apis.io/apis/linkagi-model-api/linkagi-model-api-openai-compatible-api/) — OpenAI-compatible Chat Completions and Responses routes.
+- [LinkAGI Model API Public metadata API](https://apis.io/apis/linkagi-model-api/linkagi-model-api-public-metadata-api/) — Unauthenticated service status and live pricing metadata.
 
-## APIs
+### Published properties
 
-### LinkAGI Model API Anthropic-style route API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Messages-shaped route advertised by the service. The route reaches authentication without a key; authenticated native compatibility has not been verified in the latest evidence set.
+#### MCP servers (1)
 
-- **Human URL:** [https://docs.linktoagi.com/](https://docs.linktoagi.com/)
-- **Base URL:** `https://api.linktoagi.com`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [linkagi](https://apis.io/servers/linkagi-model-api/linkagi/)
 
-- Anthropic-style route
+#### Collections (5)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [OpenAPI](openapi/linkagi-model-api-anthropic-style-route-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/linkagi-model-api-anthropic-style-route-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/linkagi-model-api-anthropic-style-route-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Data Model](data-model/linkagi-model-api-data-model.yml)
+- [LinkAGI Anthropic-style route API](https://apis.io/collections/linkagi-model-api/open-linkagi-model-api-anthropic-style-route-api/)
+- [LinkAGI Discovery API](https://apis.io/collections/linkagi-model-api/open-linkagi-model-api-discovery-api/)
+- [LinkAGI Gemini-style route API](https://apis.io/collections/linkagi-model-api/open-linkagi-model-api-gemini-style-route-api/)
+- [LinkAGI OpenAI compatible API](https://apis.io/collections/linkagi-model-api/open-linkagi-model-api-openai-compatible-api/)
+- [LinkAGI Public metadata API](https://apis.io/collections/linkagi-model-api/open-linkagi-model-api-public-metadata-api/)
 
-### LinkAGI Model API Discovery API
+#### Overlays (1)
 
-Inspect the models visible to the current token group.
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- **Human URL:** [https://docs.linktoagi.com/](https://docs.linktoagi.com/)
-- **Base URL:** `https://api.linktoagi.com`
+- [Linkagi Model Api Openapi Overlay](https://apis.io/overlays/linkagi-model-api/linkagi-model-api-openapi-overlay/)
 
-#### Tags
+#### Security (2)
 
-- Discovery
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Properties
+- [Linkagi Model Api Authentication](https://apis.io/security/linkagi-model-api/linkagi-model-api-authentication/)
+- [Linkagi Model Api Domain Security](https://apis.io/security/linkagi-model-api/linkagi-model-api-domain-security/)
 
-- [OpenAPI](openapi/linkagi-model-api-discovery-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/linkagi-model-api-discovery-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/linkagi-model-api-discovery-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Data Model](data-model/linkagi-model-api-data-model.yml)
+## Where to find this API
 
-### LinkAGI Model API Gemini-style route API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-generateContent-shaped route advertised by the service. The route reaches authentication without a key; authenticated native compatibility has not been verified in the latest evidence set.
-
-- **Human URL:** [https://docs.linktoagi.com/](https://docs.linktoagi.com/)
-- **Base URL:** `https://api.linktoagi.com`
-
-#### Tags
-
-- Gemini-style route
-
-#### Properties
-
-- [OpenAPI](openapi/linkagi-model-api-gemini-style-route-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/linkagi-model-api-gemini-style-route-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/linkagi-model-api-gemini-style-route-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Data Model](data-model/linkagi-model-api-data-model.yml)
-
-### LinkAGI Model API OpenAI compatible API
-
-OpenAI-compatible Chat Completions and Responses routes.
-
-- **Human URL:** [https://docs.linktoagi.com/](https://docs.linktoagi.com/)
-- **Base URL:** `https://api.linktoagi.com`
-
-#### Tags
-
-- OpenAI compatible
-
-#### Properties
-
-- [OpenAPI](openapi/linkagi-model-api-openai-compatible-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/linkagi-model-api-openai-compatible-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/linkagi-model-api-openai-compatible-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Data Model](data-model/linkagi-model-api-data-model.yml)
-
-### LinkAGI Model API Public metadata API
-
-Unauthenticated service status and live pricing metadata.
-
-- **Human URL:** [https://docs.linktoagi.com/](https://docs.linktoagi.com/)
-- **Base URL:** `https://api.linktoagi.com`
-
-#### Tags
-
-- Public metadata
-
-#### Properties
-
-- [OpenAPI](openapi/linkagi-model-api-public-metadata-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/linkagi-model-api-public-metadata-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/linkagi-model-api-public-metadata-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Data Model](data-model/linkagi-model-api-data-model.yml)
-
-## Common Properties
-
-- [M C P Server](mcp/linkagi-model-api-mcp.yml)
-- [Overlay](overlays/linkagi-model-api-openapi-overlay.yaml)
-- [Domain Security](security/linkagi-model-api-domain-security.yml)
-- [Authentication](authentication/linkagi-model-api-authentication.yml)
-- [Developer Portal](https://api.linktoagi.com/)
+- [Website](https://www.linktoagi.com/)
 - [Documentation](https://docs.linktoagi.com/)
-- [Getting Started](https://docs.linktoagi.com/codex-api.html)
+- [Getting started](https://docs.linktoagi.com/codex-api.html)
+- [Pricing](https://api.linktoagi.com/pricing)
+- [Sign up](https://api.linktoagi.com/register)
 - [Support](https://docs.linktoagi.com/about.html#support)
 - [Blog](https://docs.linktoagi.com/articles/)
-- [Blog R S S](https://docs.linktoagi.com/feed.xml)
-- [Git Hub](https://github.com/16871233/linkagi-api-starter)
-- [Pricing](https://api.linktoagi.com/pricing)
-- [Sign Up](https://api.linktoagi.com/register)
-- [Terms of Service](https://api.linktoagi.com/user-agreement)
-- [Privacy Policy](https://api.linktoagi.com/privacy-policy)
-- [Status Page](https://docs.linktoagi.com/status.html)
-- [Postman](https://www.postman.com/lhs-1-s-team/linkagi-api/collection/8nl8r40/linkagi-api) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [A P Is J S O N](https://docs.linktoagi.com/apis.json)
-- [L L Ms Txt](llms/linkagi-model-api-llms.txt)
-- [Changelog](changelog/linkagi-model-api-changelog.yml)
-- [Lifecycle](lifecycle/linkagi-model-api-lifecycle.yml)
-- [Conventions](conventions/linkagi-model-api-conventions.yml)
-- [Error Catalog](errors/linkagi-model-api-problem-types.yml)
-- [Conformance](conformance/linkagi-model-api-conformance.yml)
-- [Packages](packages/linkagi-model-api-packages.yml)
-- [Agent Skill](skills/_index.yml)
+- [Terms of service](https://api.linktoagi.com/user-agreement)
+- [Privacy policy](https://api.linktoagi.com/privacy-policy)
+- [Status](https://docs.linktoagi.com/status.html)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** LinkAGI Support
-**Email:** linktoagi@163.com
-**URL:** https://docs.linktoagi.com/about.html#support
+**Kin Score 34.0** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 52.5 |
+| Contract governance | 4.5 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 44.6 |
+| Access clarity | 0.0 |
+
+**Agent readiness 24.3** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/linkagi-model-api/](https://apis.io/providers/linkagi-model-api/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for LinkAGI Model API: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/linkagi-model-api/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
